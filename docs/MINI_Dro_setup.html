@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="ja"><head><meta charset="utf-8">
+<title>MINI_Dro 設定手順書</title>
+<style>
+@page { size: A4; margin: 16mm 14mm; }
+body { font-family: "IPAGothic","IPAPGothic",sans-serif; font-size: 10.5pt; line-height: 1.65; color:#1a1a1a; background:#fff; }
+h1 { font-size: 19pt; margin: 0 0 4px; border-bottom: 3px solid #1f4e79; padding-bottom: 6px; }
+h2 { font-size: 14pt; color:#fff; background:#1f4e79; padding: 5px 10px; margin: 22px 0 10px; border-radius:3px; }
+h3 { font-size: 11.5pt; color:#1f4e79; border-left: 4px solid #1f4e79; padding-left: 8px; margin: 16px 0 6px; }
+.sub { color:#555; font-size: 9.5pt; margin-bottom: 12px; }
+table { border-collapse: collapse; width: 100%; margin: 6px 0 10px; font-size: 10pt; }
+th, td { border: 1px solid #b7c4d3; padding: 5px 8px; vertical-align: top; text-align:left; }
+th { background: #e8eef5; }
+ol, ul { margin: 4px 0 8px; padding-left: 22px; }
+li { margin: 2px 0; }
+.box { border: 1px solid #b7c4d3; background:#f5f8fb; padding: 8px 12px; border-radius: 4px; margin: 8px 0; }
+.warn { border: 1px solid #d9a441; background:#fff8e8; padding: 8px 12px; border-radius: 4px; margin: 8px 0; }
+.red { border: 1px solid #c0392b; background:#fdeeee; padding: 8px 12px; border-radius: 4px; margin: 8px 0; }
+.k { font-weight: bold; background:#eef2f7; padding: 0 4px; border-radius: 3px; }
+code { font-family: "IPAGothic",monospace; background:#eef2f7; padding: 0 4px; border-radius:3px; }
+.chk td:first-child { width: 24px; text-align:center; }
+.pb { page-break-before: always; }
+.small { font-size: 9pt; color:#555; }
+</style></head><body>
+
+<h1>MINI_Dro 設定手順書</h1>
+<div class="sub">UGREEN NAS（DXP4800 Plus）を「自分専用のDropbox」にする ／ 対象：NAS・iPhone・iPad・Windows PC ／ 家の外からも使う<br>作成日：2026年9月29日</div>
+
+<h2>0. 結論と全体像</h2>
+<p><b>NASに「MINI_Dro」フォルダを作り、UGREENのアプリで全機器からつなぎます。Dropboxの契約は不要です。</b>外出先からは「UGREENlink」という公式のリモート接続を使います。ルーターの設定は不要です。</p>
+<table>
+<tr><th style="width:18%">機器</th><th style="width:30%">使うもの</th><th>動き方</th><th style="width:12%">目安時間</th></tr>
+<tr><td>NAS</td><td>UGOS Pro（ブラウザで操作）</td><td>MINI_Droの保管場所。すべての元データがここに入る</td><td>15分</td></tr>
+<tr><td>iPhone / iPad</td><td>アプリ「UGREEN NAS」</td><td>アプリからMINI_Droを開く・保存する（家の中でも外でも）</td><td>各5分</td></tr>
+<tr><td>Windows PC<br><span class="small">（後日でOK）</span></td><td>UGREEN NAS デスクトップアプリの「Sync &amp; Backup」</td><td>PCのフォルダとNASが<b>自動で同じ中身</b>になる（Dropboxと同じ）</td><td>10分</td></tr>
+</table>
+<div class="warn"><b>iPhone・iPadの動き方について：</b>iOSの仕組み上、裏側での常時フォルダ同期はできません。ファイルは「アプリで開いて使う」形です（DropboxのiOSアプリもほぼ同じ動き方です）。PCのように、何もしなくても中身がそろう動きはWindows・Macだけです。</div>
+
+<h3>準備するもの</h3>
+<ul>
+<li>NASの管理者アカウント（ユーザー名とパスワード）</li>
+<li>メールアドレス（UGREENアカウント作成に使います。例：tatsuzawa.m@gmail.com）</li>
+<li>iPhone・iPadが<b>NASと同じ自宅のWi-Fi</b>につながっていること（初回の設定時）</li>
+</ul>
+<p class="small">※画面のメニュー名は、UGOS Proやアプリの版によって少し違うことがあります。見つからない場合は、近い名前のメニューを探してください。</p>
+
+<h2>1. NASの設定（パソコンまたはiPadのブラウザで）</h2>
+
+<h3>1-1. UGOS Proにログインし、最新版に更新する</h3>
+<ol>
+<li>ブラウザで <code>find.ugnas.com</code> を開き、NASを探してログインします（NASのIPアドレスが分かれば、それを直接入力してもOKです）。</li>
+<li><span class="k">コントロールパネル</span> → <span class="k">システム更新</span>（または「更新と復元」）を開き、更新があれば実行します。<br><span class="small">理由：古い版だと、リモート接続や同期のメニューが出ないことがあります。</span></li>
+</ol>
+
+<h3>1-2. 共有フォルダ「MINI_Dro」を作る</h3>
+<ol>
+<li><span class="k">ファイル</span>アプリを開き、左側の <span class="k">共有フォルダ</span> 横の <span class="k">＋</span>（または「共有フォルダを作成」）を押します。</li>
+<li>名前に <code>MINI_Dro</code> と入力します（大文字・小文字もこのとおりに）。</li>
+<li>保存先のストレージ（ボリューム1など）を選びます。</li>
+<li><b>ごみ箱</b>は「有効」のままにします（新しい共有フォルダでは初期設定で有効です）。</li>
+<li><b>権限</b>：ご自身のアカウントを「読み取り／書き込み」にします。他の人には付けません。</li>
+<li>保存します。</li>
+</ol>
+<div class="box"><b>おすすめ：スナップショットも有効にする</b><br>
+<span class="k">ストレージ</span> または <span class="k">スナップショット</span> のメニューで、MINI_Droに「1日1回・30日分保存」のスナップショットを設定します。<br>
+理由：同期では「削除」も全機器に広がります。間違えて消したり、ウイルスでファイルを壊されたりしても、前の日の状態に戻せます。</div>
+
+<h3>1-3. 家の外から使えるようにする（UGREENlink）</h3>
+<ol>
+<li><span class="k">コントロールパネル</span> → <span class="k">デバイス接続</span> → <span class="k">リモートアクセス</span> を開きます。</li>
+<li><span class="k">UGREENlink</span> をオンにします。</li>
+<li>画面の案内に従い、UGREENアカウントを作成（すでにあればログイン）して、NASと結び付けます。</li>
+<li><b>UGREENlink ID</b> を決めて入力し、<span class="k">適用</span> を押します。<br>
+　例：<code>tz-mini-7k3q</code>（会社名だけのIDは推測されやすいため避けます）</li>
+<li>表示された <b>UGREENlink ID</b> と <b>Webアクセス用のリンク</b> を控えます。→ 最終ページの記入欄へ。</li>
+</ol>
+
+<h3>1-4. 安全対策（外から使うので必須）</h3>
+<ul>
+<li><b>パスワード</b>：管理者アカウントは12文字以上の、他で使っていないものにします。</li>
+<li><b>2段階認証</b>：右上の自分のアカウント（個人設定）→ セキュリティで、2段階認証をオンにします。スマホの認証アプリで確認コードを受け取る方式です。</li>
+<li><b>「admin」という名前のアカウント</b>を使っている場合は、別名の管理者を作り、adminは無効にするのが理想です。</li>
+</ul>
+
+<h2 class="pb">2. iPhone・iPadの設定（どちらも同じ手順）</h2>
+
+<h3>2-1. アプリを入れてログインする</h3>
+<ol>
+<li>App Storeで <b>「UGREEN NAS」</b>（開発元：UGREEN）をインストールします。iOS 15以上が必要です。</li>
+<li><b>自宅のWi-Fiで</b>アプリを開くと、NASが自動で見つかります。選んで、NASのユーザー名とパスワードでログインします。</li>
+<li>家の外でつなぐ場合は、ログイン画面で <b>UGREENlink ID</b>（1-3で決めたもの）を入力します。一度ログインすれば、その後はアプリが自宅と外出先を自動で切り替えます。</li>
+</ol>
+
+<h3>2-2. MINI_Droをすぐ開けるようにする</h3>
+<ol>
+<li>アプリ下の <span class="k">ファイル</span> → <span class="k">MINI_Dro</span> を開きます。</li>
+<li>右上のメニュー（…）から <b>お気に入り</b>（またはピン留め）に入れておきます。</li>
+</ol>
+
+<h3>2-3. 使い方</h3>
+<table>
+<tr><th style="width:28%">したいこと</th><th>操作</th></tr>
+<tr><td>ファイルを入れる</td><td>MINI_Dro内で <b>＋</b> →「ファイル」または「写真」を選ぶ</td></tr>
+<tr><td>メール添付をしまう</td><td>添付を長押し → 共有 → 「UGREEN NAS」→ MINI_Droを選ぶ</td></tr>
+<tr><td>ファイルを見る</td><td>タップで開く（PDF・写真・動画・Office文書はアプリ内で表示）</td></tr>
+<tr><td>他のアプリで編集</td><td>ファイルの …→「別のアプリで開く」。編集後は保存し直してアップロードします</td></tr>
+<tr><td>人に渡す</td><td>ファイルの …→「共有リンク」。<b>有効期限とパスワードを必ず付けます</b></td></tr>
+</table>
+
+<div class="box"><b>おまけ：家の中では「ファイル」アプリからも使えます</b>（iPhone・iPadに最初から入っているアプリ）<br>
+「ファイル」アプリ → 右上の … → <b>サーバへ接続</b> → <code>smb://NASのIPアドレス</code>（例：<code>smb://192.168.1.20</code>）→ NASのユーザー名とパスワード → MINI_Dro。<br>
+Word・Excel・PDFを直接開いて上書き保存できます。<b>家のWi-Fiの中だけで使える方法</b>です。外出先ではUGREEN NASアプリを使います。<br>
+<span class="small">NASのIPアドレスは、UGOS Proの コントロールパネル → ネットワーク で確認できます。</span></div>
+
+<h2>3. Windows PCの設定（後日でOK）</h2>
+<p>この設定で、PCの「MINI_Dro」フォルダとNASの中身が自動でそろいます。Dropboxと同じ使い心地です。</p>
+<ol>
+<li>UGREENのダウンロードページ（<code>ugreen.com</code> → アプリダウンロード）から、<b>UGREEN NAS デスクトップアプリ（Windows版）</b>を入れます。</li>
+<li>アプリを開き、NASにログインします（家の外にあるPCなら、UGREENlink IDでログイン）。</li>
+<li><b>PC側に空のフォルダを作ります</b>：<code>C:\Users\（ご自身のユーザー名）\MINI_Dro</code></li>
+<li>アプリで <span class="k">Sync &amp; Backup</span> → 左メニュー <span class="k">同期（Sync）</span> → <span class="k">追加</span> → <span class="k">このコンピューターを同期</span> → <span class="k">次へ</span>。</li>
+<li>パソコン側のパス：手順3のフォルダ ／ NAS側のパス：<code>/MINI_Dro</code></li>
+<li>同期の方向は <b>双方向</b> を選びます。</li>
+<li>重複したときの扱い（競合ルール）は、<b>「両方残す」</b>（名前を変えて両方保存）を選びます。上書き系は選びません。</li>
+<li>完了を押すと、最初の同期が始まります。</li>
+<li>設定で <b>「Windows起動時に自動起動」</b>をオンにします。<br><span class="small">理由：アプリが動いていない間は同期されません。</span></li>
+</ol>
+<div class="warn"><b>最初の同期の前に：</b>PC側・NAS側の両方にファイルがあると、重複や思わぬ上書きが起きやすくなります。PC側は<b>空のフォルダ</b>から始めてください。PCにある既存のファイルは、同期が終わってから移します。</div>
+
+<h2 class="pb">4. 必ず知っておいてほしい注意点</h2>
+<div class="red">
+<ol>
+<li><b>削除も同期されます。</b>どの機器で消しても、NASからも消えます。→ 1-2の <b>ごみ箱</b> と <b>スナップショット</b> で戻せるようにしておきます。</li>
+<li><b>NASだけではバックアップになりません。</b>RAIDは「ディスク1台の故障」への備えで、火事・盗難・誤削除・ウイルスには効きません。<br>→ 大事なものは、<b>外付けHDDへの自動バックアップ</b>（1〜2万円程度）か、<b>クラウドへのバックアップ</b>（UGOS Proの「Cloud Drives」機能で、Dropbox・Google Driveなどへ定期コピー）を、もう1か所に用意します。</li>
+<li><b>外出先での速さは、自宅回線の「上り」速度で決まります。</b>大きな動画などは時間がかかることがあります。</li>
+<li><b>会社の書類を入れる場合：</b>個人情報・取引先の機密は、共有リンクを出さない運用にします。社員に使わせる場合は、一人ずつアカウントを作り、フォルダごとに権限を分けます。</li>
+<li><b>NASの電源は常に入れておきます。</b>停電対策として、小型UPS（無停電電源装置、1〜2万円程度）があると安心です。</li>
+</ol></div>
+
+<h2>5. 動作確認チェックリスト</h2>
+<table class="chk">
+<tr><th>✓</th><th>確認すること</th></tr>
+<tr><td>□</td><td>iPhoneからMINI_Droに写真を1枚入れる → iPadのアプリで見える</td></tr>
+<tr><td>□</td><td>iPhoneの <b>Wi-Fiを切って（モバイル通信で）</b> アプリを開き、MINI_Droが見える ＝ 外出先OK</td></tr>
+<tr><td>□</td><td>MINI_Droのファイルを1つ消す → UGOS Proの「ごみ箱」から戻せる</td></tr>
+<tr><td>□</td><td>（Windows設定後）PCのMINI_Droに入れたファイルが、1分ほどでiPhoneに見える</td></tr>
+<tr><td>□</td><td>（Windows設定後）iPhoneで入れたファイルが、PCのMINI_Droに自動で入る</td></tr>
+</table>
+
+<h2>6. 控え（記入欄）</h2>
+<p class="small">※パスワードはここに書かず、パスワード管理アプリなどに保存してください。</p>
+<table>
+<tr><th style="width:38%">項目</th><th>記入</th></tr>
+<tr><td>NASのIPアドレス（家の中）</td><td>&nbsp;</td></tr>
+<tr><td>NASのユーザー名</td><td>&nbsp;</td></tr>
+<tr><td>UGREENlink ID</td><td>&nbsp;</td></tr>
+<tr><td>Webアクセス用リンク</td><td>&nbsp;</td></tr>
+<tr><td>UGREENアカウントのメール</td><td>&nbsp;</td></tr>
+</table>
+
+<h3>参考（UGREEN公式）</h3>
+<ul class="small">
+<li>How to Sync Files Between Your UGREEN NAS and Computer — ai.ugreen.com/blogs/how-to/ugreen-nas-file-sync</li>
+<li>How to Set Up Remote Access for Your UGREEN NAS — ai.ugreen.com/blogs/how-to/ugreen-nas-remote-access</li>
+<li>UGREEN NAS App Download — ai.ugreen.com/pages/app-download</li>
+<li>How to Set Up UGREEN NAS for Multiple Family Users — ai.ugreen.com/blogs/how-to/organize-family-data-nas-storage</li>
+<li>How to Protect Your UGREEN NAS from Ransomware — ai.ugreen.com/blogs/how-to/protect-nas-from-ransomware</li>
+</ul>
+</body></html>
