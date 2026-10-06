@@ -1,0 +1,29 @@
+{
+  "_comment": "1ルール＝1要素。investment_rules.json は、この形のルールの配列。",
+  "book": "onil_canslim_4th",
+  "rules": [
+    {
+      "id": "ONIL-001",
+      "category": "EPS | 売上高 | 利益成長 | 株価・出来高 | 業界・市場 | 機関投資家 | 買いタイミング | 売却 | 損切り | 例外・注意 | その他",
+      "canslim": "C | A | N | S | L | I | M | なし",
+      "name": "ルール名（20字以内）",
+      "book_claim": "本に書かれている主張（できるだけ原文に近い言い方）",
+      "quote": "根拠となる原文の短い抜粋（30字以内。長い引用は禁止）",
+      "pages": ["p.123"],
+      "source_type": "book | inferred",
+      "quantifiable": true,
+      "metric": "例: 直近四半期EPS前年同期比成長率（数値化できない場合は null）",
+      "operator": ">= | <= | > | < | between | null",
+      "threshold": "例: 25（本にある数値のみ。本に無ければ null）",
+      "threshold_note": "本に明記 / 範囲で記述 / 数値なし のいずれかと補足",
+      "buy_condition": "買い条件（無ければ null）",
+      "sell_condition": "売り条件（無ければ null）",
+      "exceptions": "例外条件（無ければ null）",
+      "japan_caveat": "日本株に適用する際の注意（AIの推論なので source_type は inferred 扱い）",
+      "data_needed": ["例: 四半期EPS", "株価日足", "出来高"],
+      "backtestable": "yes | partial | no",
+      "backtest_note": "partial/no の理由（例: 主観判断が必要、日本で取得困難なデータ）",
+      "ocr_confidence": "high | medium | low"
+    }
+  ]
+}
